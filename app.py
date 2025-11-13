@@ -1,21 +1,24 @@
-import streamlit as st # for web Ui with Python
-from utils import generate_question, check_answer # import custom modules
+import streamlit as st
+from welcome import welcome_screen
+from quiz import quiz_screen
+from results import results_screen   # you will create this soon
 
-st.title("Times Tables Quiz")
 
-# Generate a question when the app first loads
-if "question" not in st.session_state:
-    num1, num2, answer = generate_question()
-    st.session_state.question = (num1, num2, answer)
+def main():
+    if "screen" not in st.session_state:
+        st.session_state.screen = "welcome"
 
-num1, num2, correct_answer = st.session_state.question
+    screen = st.session_state.screen
 
-st.write(f"What is {num1} × {num2}?")
+    if screen == "welcome":
+        welcome_screen()
 
-user_answer = st.number_input("Your answer:", step=1)
+    elif screen == "quiz":
+        quiz_screen()
 
-if st.button("Check"):
-    if check_answer(user_answer, correct_answer):
-        st.success("Correct!")
-    else:
-        st.error("Try again.")
+    elif screen == "results":
+        results_screen()
+
+
+if __name__ == "__main__":
+    main()
